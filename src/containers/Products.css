@@ -1,53 +1,10 @@
-.Products h4 {
-    font-family: "Open Sans", sans-serif;
-    font-weight: 600;
-    overflow: hidden;
-    line-height: 1.5;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+table, th, td {
+    border: 1px solid black;
 }
 
-.Products p {
-    color: #666;
-}
-
-#title {
-    text-align: left;
-    font-family: arial, sans-serif;
-}
-
-#Products {
-    text-align: left;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    border: 3px solid #ddd;
-    width: 100%;
-}
-
-#Products td, #Products th {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-#Products tr:nth-child(even){background-color: #f2f2f2;}
-
-#Products tr:hover {background-color: #ddd;}
-
-#Products th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: center;
-    background-color: #7AB4F7;
+th {
+    background-color: #4CAF50;
     color: black;
 }
 
-a.list-group-item:hover {
-    background-color: #1D7EEC;
-    font-weight: 900;
-}
-
-a.list-group-item {
-    background-color: #7AB4F7;
-    color: black;
-    font-weight: 900;
-}
+tr:hover {background-color: #f5f5f5;}

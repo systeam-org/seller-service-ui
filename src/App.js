@@ -1,67 +1,26 @@
 import React, { useState, useEffect, onLoad } from "react";
-import "./App.css";
+import logo from './logo.svg';
 import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Nav, Navbar, Form, FormControl, Button, Dropdown } from "react-bootstrap";
 import Routes from "./Routes";
-
+import config from "./config";
 
 function App(props) {
-
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
-
-  useEffect(() => {
-    onLoad();
-  }, []);
-  
-  async function onLoad() {
-    try {
-      userHasAuthenticated(false);
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        alert(e);
-      }
-    }
-  
-    setIsAuthenticating(false);
-  }
-
-  function handleLogout() {
-    userHasAuthenticated(false);
-    props.history.push("/login");
-  }
-  
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [isAuthenticated, userHasAuthenticated] = useState(false);
   return (
-    !isAuthenticating &&
-    <div className="App container">
-
-      <Navbar fluid collapseOnSelect>
-        <Navbar.Header >
-          <Navbar.Brand>
-            <Link to="/"></Link>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav pullRight>
-            {isAuthenticated
-              ? <NavItem onClick={handleLogout}>Logout</NavItem>            
-              : <>
-                  <LinkContainer to="/signup">
-                    <NavItem>Signup</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/login">
-                    <NavItem>Login</NavItem>
-                  </LinkContainer>
-                </>
-            }
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <div className="App container">
+          <Navbar bg="dark" variant="dark">
+              <Navbar.Brand href="#home"></Navbar.Brand>
+              <Nav className="mr-auto">
+                  <Nav.Link href="/products">Home</Nav.Link>
+                  <Nav.Link href="/orders">Orders</Nav.Link>
+                  <Nav.Link href={config.BUYER_UI_BASE_URL}>Buyer Portal</Nav.Link>
+              </Nav>
+          </Navbar>
       <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
-    </div>
+      </div>
   );
 }
 

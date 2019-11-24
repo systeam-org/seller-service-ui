@@ -1,10 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-//import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { FormGroup, FormControl, ControlLabel} from "react-bootstrap";
-import {Dropdown} from "react-bootstrap";
+import { FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
-import "./NewProduct.css";
 import axios from "axios";
 
 
@@ -24,10 +21,6 @@ export default function NewProduct(props) {
     useEffect(() => {
 
         async function onLoad() {
-            if (!props.isAuthenticated) {
-                return;
-            }
-
             try {
                 const categories = await getProductCategories()
                 setProductcategories(categories)
@@ -47,7 +40,7 @@ export default function NewProduct(props) {
 
         try {
             await addProduct();
-            props.history.push("/products");
+            props.history.push("/");
         } catch (e) {
             alert(e);
             setIsLoading(false);
@@ -70,11 +63,10 @@ export default function NewProduct(props) {
 
 
     function addProduct() {
-        console.info('SeletecCategory: ', selectedCategory)
 
         let rawData = {
             category_name: selectedCategory,
-            email: "seller1@gmail.com",
+            email: "seller@gmail.com",
             product_name: productname,
             description: productdescription,
             price: price,
@@ -107,34 +99,36 @@ export default function NewProduct(props) {
 
         return <div className="NewProduct">
             <form onSubmit={handleSubmit}>
-                <FormGroup controlId="newproduct">
-                    <ControlLabel>Categories</ControlLabel>
-                    <FormControl componentClass="select" defaultValue="Select Category..." onChange={e => setSelectedCategory(e.target.value)}>
+                <div className="form-group">
+                    <label htmlFor="inputProductCategory">Product Category</label>
+                    <select id="inputProductCategory" className="form-control" defaultValue="Select Category..." onChange={e => setSelectedCategory(e.target.value)}>
                         {productcategories.map((category, index) => <option key={index} value={category}>{category}</option>)}
-                    </FormControl>
-                    <ControlLabel>Product Name</ControlLabel>
-                    <FormControl
-                        value={productname}
-                        onChange={e => setProductName(e.target.value)}
-                    />
-                    <ControlLabel>Product Description</ControlLabel>
-                    <FormControl
-                        value={productdescription}
-                        onChange={e => setProductdescription(e.target.value)}
-                    />
-                    <ControlLabel>Price</ControlLabel>
-                    <FormControl
-                        value={price}
-                        onChange={e => setPrice(e.target.value)}
-                    />
-                    <ControlLabel>Quantity</ControlLabel>
-                    <FormControl
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
-                    />
-                    <ControlLabel>Product Image</ControlLabel>
-                    <FormControl onChange={handleFileChange} type="file" />
-                </FormGroup>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="inputProductName">Product Name</label>
+                    <input type="text" className="form-control" id="inputProductName" onChange={e => setProductName(e.target.value)}/>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="inputProductDescription">Product Description</label>
+                    <input type="text" className="form-control" id="inputProductDescription" onChange={e => setProductdescription(e.target.value)}/>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="inputProductPrice">Product Price</label>
+                    <input type="text" className="form-control" id="inputProductPrice" onChange={e => setPrice(e.target.value)}/>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="inputProductQuantity">Product Quantity</label>
+                    <input type="text" className="form-control" id="inputProductQuantity" onChange={e => setQuantity(e.target.value)}/>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="inputProductImage">Product Image</label>
+                    <input type="file" className="form-control" id="inputProductImage" onChange={handleFileChange}/>
+                </div>
 
                 <LoaderButton
                     block
@@ -151,7 +145,7 @@ export default function NewProduct(props) {
 
     return (
         <div className="Home">
-            {props.isAuthenticated ? renderProductsDetailsForm() : renderLander()}
+            {renderProductsDetailsForm()}
         </div>
     );
 }

@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import "./Products.css";
 import axios from "axios"
 import config from "../config";
+//import "./SellerProducts.css"
+import LoaderButton from "../components/LoaderButton";
 
-
-
-export default function Products(props) {
+export default function SellerProducts(props) {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         async function onLoad() {
-            if (!props.isAuthenticated) {
-                return;
-            }
-
             try {
                 const prods = await loadProducts();
                 setProducts(prods)
@@ -31,7 +26,7 @@ export default function Products(props) {
     function loadProducts() {
         return axios.get(config.SELLER_BASE_URL + config.SELLER_PRODUCTS_API, {
             params: {
-                email: 'seller1@gmail.com'
+                email: 'seller@gmail.com'
             }
         }).then(res => {
             return res.data
@@ -107,18 +102,22 @@ export default function Products(props) {
         return (
             <div>
                 <h1 id='title'>Products</h1>
-                <table id='Products'>
+                <table>
                     <tbody>
                     <tr>{!isLoading && renderProductsTableHeader()}</tr>
                     {renderProductsTableData()}
                     </tbody>
                 </table>
                 <LinkContainer key="new" to="/products/new">
-                    <ListGroupItem>
-                        <h4>
-                            <b>{"\uFF0B"}</b> Add Product
-                        </h4>
-                    </ListGroupItem>
+                    <LoaderButton
+                        block
+                        type="submit"
+                        bsSize="large"
+                        bsStyle="primary"
+                        isLoading={isLoading}
+                    >
+                        Add Product
+                    </LoaderButton>
                 </LinkContainer>
             </div>
         )
@@ -126,7 +125,7 @@ export default function Products(props) {
 
     return (
         <div className="Home">
-            {props.isAuthenticated ? renderProducts() : renderLander()}
+            { renderProducts()}
         </div>
     );
 }
