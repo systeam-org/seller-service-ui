@@ -9,15 +9,39 @@ import LoaderButton from "../components/LoaderButton";
 export default function SellerProducts(props) {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [isAuthenticated, userHasAuthenticated] = useState(false);
+
     useEffect(() => {
         async function onLoad() {
             try {
-                const prods = await loadProducts();
+
+                userHasAuthenticated(false);
+                if(window.location.href.includes('id_token'))
+                {
+                    let token = window.location.hash.replace("#id_token=","");
+                    let base64Url = token.split('.')[1];
+                    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    }).join(''));
+                    config.setCookie("email",JSON.parse(jsonPayload).email,1);
+                    config.setCookie("first_name",JSON.parse(jsonPayload).given_name,1);
+                    config.setCookie("last_name",JSON.parse(jsonPayload).family_name,1);
+                    config.get_user(JSON.parse(jsonPayload).email)
+                    userHasAuthenticated(true)
+                }
+                else if(config.getCookie("email") && config.getCookie("role")) {
+                    userHasAuthenticated(true)
+                }
+
+                const prods =  await loadProducts();
                 setProducts(prods)
             } catch (e) {
                 alert(e);
             }
             setIsLoading(false);
+            setIsAuthenticating(false)
         }
 
         onLoad();
@@ -33,37 +57,6 @@ export default function SellerProducts(props) {
         })
     }
 
-    function renderProductsList(products) {
-        return [{}].concat(products).map((product, i) =>
-            i !== 0 ? (
-                <LinkContainer key={product.product_id} to={`/products/${product.product_id}`}>
-                    <ListGroupItem header={product.product_name.trim().split("\n")[0]}>
-                        {"Product Description: " + product.description}
-                    </ListGroupItem>
-                </LinkContainer>
-
-            ) : (
-                <LinkContainer key="new" to="/products/new">
-                    <ListGroupItem>
-                        <h4>
-                            <b>{"\uFF0B"}</b> Add a new product
-                        </h4>
-                    </ListGroupItem>
-                </LinkContainer>
-            )
-        );
-    }
-
-
-    function renderLander() {
-        return (
-            <div className="lander">
-                <h1></h1>
-                <p></p>
-            </div>
-        );
-    }
-
     function camelCase(str) {
         return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index)
         {
@@ -77,8 +70,6 @@ export default function SellerProducts(props) {
             //return <th key={index}>{camelCase(key.toUpperCase().replace('_', "  "))}</th>
             return <th key={index}>{key}</th>
         })
-
-
     }
 
     function renderProductsTableData() {
@@ -98,27 +89,36 @@ export default function SellerProducts(props) {
         })
     }
 
+    function renderLoaderButton() {
+        return (
+        <LinkContainer key="new" to="/products/new">
+            <LoaderButton
+                block
+                type="submit"
+                bsSize="large"
+                bsStyle="primary"
+                isLoading={isLoading}
+                isAuthenticating
+            >
+                Add Product
+            </LoaderButton>
+        </LinkContainer>
+        )
+    }
+
     function renderProducts() {
         return (
+            !isAuthenticating &&
             <div>
-                <h1 id='title'>Products</h1>
+                {isAuthenticated && <h1 id='title'>My Products</h1>}
                 <table>
                     <tbody>
-                    <tr>{!isLoading && renderProductsTableHeader()}</tr>
-                    {renderProductsTableData()}
+                    <tr>{isAuthenticated && renderProductsTableHeader()}</tr>
+                    {isAuthenticated && renderProductsTableData()}
                     </tbody>
                 </table>
-                <LinkContainer key="new" to="/products/new">
-                    <LoaderButton
-                        block
-                        type="submit"
-                        bsSize="large"
-                        bsStyle="primary"
-                        isLoading={isLoading}
-                    >
-                        Add Product
-                    </LoaderButton>
-                </LinkContainer>
+                {isAuthenticated && renderLoaderButton()}
+
             </div>
         )
     }

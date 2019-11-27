@@ -58,7 +58,7 @@ function App(props) {
                   {isAuthenticated
                       ?
                       <>
-                          <Nav.Link href="/products">Home  |</Nav.Link>
+                          <Nav.Link href="/products">Products  |</Nav.Link>
                           <Nav.Link href="/orders">Orders  |</Nav.Link>
                           <Nav.Link href={config.getBuyerUIEndPoint()}>Go to Buyer Portal  |</Nav.Link>
                           <Nav.Link href="/" onClick={() => {config.deleteAllCookies()}}>Logout</Nav.Link>
