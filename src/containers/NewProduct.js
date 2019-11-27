@@ -66,7 +66,7 @@ export default function NewProduct(props) {
 
         let rawData = {
             category_name: selectedCategory,
-            email: "seller@gmail.com",
+            email: config.getCookie("email"),
             product_name: productname,
             description: productdescription,
             price: price,
