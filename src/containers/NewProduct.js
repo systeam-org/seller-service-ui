@@ -74,7 +74,7 @@ export default function NewProduct(props) {
         }
         rawData = JSON.stringify(rawData)
         let formData = new FormData()
-        formData.append('image', imagefile.current)
+            formData.append('image', imagefile.current)
         formData.append('data', rawData)
         return axios.post(config.getSellerEndPoint() + config.SELLER_ADD_PRODUCT,formData, {
             headers:{
