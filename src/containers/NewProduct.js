@@ -54,7 +54,7 @@ export default function NewProduct(props) {
     }
 
     function getProductCategories() {
-        return axios.get(config.SELLER_BASE_URL + config.SELLER_PRODUCT_CATEGORIES
+        return axios.get(config.getSellerEndPoint() + config.SELLER_PRODUCT_CATEGORIES
         ).then(res => {
             res.data.unshift('Select Category...')
             return res.data
@@ -76,7 +76,7 @@ export default function NewProduct(props) {
         let formData = new FormData()
         formData.append('image', imagefile.current)
         formData.append('data', rawData)
-        return axios.post(config.SELLER_BASE_URL + config.SELLER_ADD_PRODUCT,formData, {
+        return axios.post(config.getSellerEndPoint() + config.SELLER_ADD_PRODUCT,formData, {
             headers:{
                 'content-type': 'application/x-www-form-urlencoded'
             },

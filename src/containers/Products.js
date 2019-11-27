@@ -24,9 +24,9 @@ export default function SellerProducts(props) {
     }, [props.isAuthenticated]);
 
     function loadProducts() {
-        return axios.get(config.SELLER_BASE_URL + config.SELLER_PRODUCTS_API, {
+        return axios.get(config.getSellerEndPoint() + config.SELLER_PRODUCTS_API, {
             params: {
-                email: 'seller@gmail.com'
+                email: config.getCookie("email")
             }
         }).then(res => {
             return res.data
