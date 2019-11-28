@@ -32,15 +32,17 @@ export default function SellerProducts(props) {
                     config.create_user(token)
                     config.get_user(JSON.parse(jsonPayload).email)
                     userHasAuthenticated(true)
+                    const prods =  await loadProducts();
+                    setProducts(prods)
+
                 }
                 else if(config.getCookie("email") && config.getCookie("role")) {
                     userHasAuthenticated(true)
-                }
-
-                if(isAuthenticated){
                     const prods =  await loadProducts();
                     setProducts(prods)
+
                 }
+
             } catch (e) {
                 alert(e);
             }

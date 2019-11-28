@@ -94,7 +94,7 @@ export function get_user(email){
             setCookie("role",result['role'],1);
         }
     };
-    xhttp.open("GET",getSellerEndPoint() + '/user?email='+getCookie("email") , true);
+    xhttp.open("GET",getSellerEndPoint() + '/user?email='+getCookie("email") , false);
     xhttp.send(null);
 }
 
@@ -113,6 +113,6 @@ export function create_user(token){
             setCookie("role",result['role'],1);
         }
     };
-    xhttp.open("POST",getSellerEndPoint() + '/user' , true);
+    xhttp.open("POST",getSellerEndPoint() + '/user' , false);
     xhttp.send(JSON.stringify(payload));
 }
