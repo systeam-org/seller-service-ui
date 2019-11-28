@@ -113,6 +113,6 @@ export function create_user(token){
             setCookie("role",result['role'],1);
         }
     };
-    xhttp.open("POST",getBuyerEndPoint() + '/user' , true);
+    xhttp.open("POST",getSellerEndPoint() + '/user' , true);
     xhttp.send(JSON.stringify(payload));
 }
