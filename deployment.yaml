@@ -20,7 +20,6 @@ spec:
           env:
             - name: PORT
               value: "92"
-          imagePullPolicy: Never
           ports:
             - containerPort: 92
 
