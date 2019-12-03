@@ -88,7 +88,7 @@ export default function SellerProducts(props) {
                     <td>{category_name}</td>
                     <td>{product_name}</td>
                     <td>{description}</td>
-                    <td>${price}</td>
+                    <td>{price}</td>
                     <td>{available_quantity}</td>
                 </tr>
             )
@@ -116,6 +116,7 @@ export default function SellerProducts(props) {
         return (
             !isAuthenticating &&
             <div>
+                {isAuthenticated && renderLoaderButton()}
                 {isAuthenticated && <h1 id='title'>My Products</h1>}
                 <table class="table">
                     <tbody>
@@ -123,7 +124,7 @@ export default function SellerProducts(props) {
                     {isAuthenticated && renderProductsTableData()}
                     </tbody>
                 </table>
-                {isAuthenticated && renderLoaderButton()}
+
 
             </div>
         )

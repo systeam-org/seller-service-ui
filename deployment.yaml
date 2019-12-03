@@ -17,6 +17,7 @@ spec:
       containers:
         - name: seller-service-ui
           image: systeamorg/seller-service-ui
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "92"
