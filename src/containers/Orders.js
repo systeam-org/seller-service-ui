@@ -59,8 +59,8 @@ export default function SellerProducts(props) {
                 <tr key={order_id}>
                     <td>{order_id}</td>
                     <td>{products[0].product_name}</td>
-                    <td>{products[0].quantity}</td>
                     <td>{total_amount}</td>
+                    <td>{products[0].quantity}</td>
                     <td>{status}</td>
                 </tr>
             )
