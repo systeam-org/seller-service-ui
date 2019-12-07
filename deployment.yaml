@@ -5,7 +5,7 @@ metadata:
   labels:
     app: seller-service-ui
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: seller-service-ui
